@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Text Search and Compare</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <!-- TOP SECTION -->
+      <div class="top-section">
+        <h1>Excel Text Search</h1>
+
+        <!-- File input -->
+        <div>
+          <label for="fileInput" class="file-input-label" id="chooseFilesLabel"><span class="icon-placeholder"></span> Choose Excel Files</label>
+          <input type="file" id="fileInput" multiple accept=".xlsx, .xls" onchange="displayFileInfo()">
+          <button class="view-files-btn" id="viewFilesBtn" onclick="openFilesModal()" style="display:none;">
+            View Selected Files (<span id="fileCount">0</span>)
+          </button>
+        </div>
+
+        <!-- Search text boxes -->
+        <div id="searchTextContainer">
+          <div class="search-text-container">
+            <div class="textarea-wrapper">
+              <textarea class="searchText" placeholder="Enter text to search..."></textarea>
+              <button type="button" class="save-icon-btn" onclick="saveCurrentSearch(this)" title="Save this search text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg></button>
+            </div>
+            <div class="search-buttons">
+              <button type="button" class="add-btn" onclick="addSearchText()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div>
+          <button onclick="search()" id="searchBtn">Search</button>
+          <button onclick="resetAll()">Reset</button>
+          <button onclick="exportResults()" id="exportBtn" style="display:none;">Export CSV</button>
+        </div>
+
+        <!-- Options -->
+        <div class="options">
+          <label>
+            <input type="checkbox" id="showOnlyNonZero" checked>
+            Show only non-zero counts
+          </label>
+          <label>
+            <input type="checkbox" id="showDetails">
+            Show occurrence details
+          </label>
+          <label>
+            <input type="checkbox" id="caseSensitive">
+            Case-sensitive search
+          </label>
+        </div>
+
+<!-- Overall totals -->
+        <div class="total" id="total" style="display:none;"></div>
+
+        <!-- Info note -->
+        <div class="info-note" id="infoNote" style="display:none;">
+          <span class="icon-placeholder" data-icon="info"></span> Note: Browsers cannot directly open or modify Excel files on your computer for security reasons. You'll need to manually open the file and navigate to the specified sheet/cell.
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div class="divider"></div>
+
+      <!-- BOTTOM SECTION: Saved Searches -->
+      <div class="saved-section">
+        <div class="saved-section-header">Saved Searches</div>
+        <div class="saved-searches" id="savedSearchesList">
+          <div style="text-align:center; color:#999; font-size:0.85rem; padding:20px;">No saved searches yet</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Processing files...</div>
+      </div>
+      <div class="results" id="results"></div>
+    </div>
+  </div>
+
+  <!-- FILES MODAL -->
+  <div id="filesModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2><span class="icon-placeholder" data-icon="folderOpen"></span> Selected Files</h2>
+        <button class="modal-close" onclick="closeFilesModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div id="modalFileList"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
